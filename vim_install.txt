@@ -1,0 +1,50 @@
+# たぶん。。
+sudo yum remove vim-enhanced
+sudo yum remove vim-common
+
+# http://qiita.com/rkaneko/items/fbba826efa2dfc8d0905
+sudo yum install mercurial
+cd /usr/local/src
+sudo hg clone https://vim.googlecode.com/hg/ vim
+cd vim
+sudo hg update
+# see info of ncurses-devel
+sudo yum info ncurses-devel
+# If u haven't installed ncurses-devel yet...
+sudo yum install ncurses-devel
+# The other prerequistes for build
+#sudo yum install gtk2-devel atk-devel libX11-devel libXt-devel
+# see info of lua-devel
+sudo yum info lua-devel
+# If u have't installed lua-devel yet...
+sudo yum install lua-devel
+cd /usr/local/src/vim
+# configure
+sudo ./configure --enable-multibyte --with-features=huge --enable-luainterp --enable-pythoninterp --with-python-config-dir=/usr/bin/python-config --enable-rubyinterp --with-ruby-command=/usr/local/bin/ruby
+# other setting 謎の設定
+# 謎 Cscope 何のために使う？
+# -enable-cscope
+# gvim関連
+# --enable-gui=gtk2 \
+# 日本語関連
+# --enable-mutibyte
+# --enable-xim
+# --enable-fontset
+# GUI関連 マウスとかどーたらこーたら
+# --enable-gpm \
+# アクセス制限無効化 この環境ではもともと無効化してある
+# --disable-selinux
+# build
+sudo make && sudo make install
+
+# see vim version
+/usr/local/bin/vim --version
+VIM - Vi IMproved 7.4 (2013 Aug 1
+
+# ビルド、インストールをし直したい人
+cd /usr/local/src/vim
+sudo make distclean
+sudo make && sudo make install
+
+# はまったとこ make distcleanしても+rubyにならない -> ソースから取得しなおしたらできた
+
